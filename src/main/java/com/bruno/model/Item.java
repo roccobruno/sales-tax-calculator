@@ -14,6 +14,8 @@ public class Item {
     private BigDecimal price;
 
     public Item(BigDecimal price) {
+         if(price.compareTo(BigDecimal.ZERO) < 0)
+             throw new IllegalArgumentException("price cannot be negative");
          this.price = price;
     }
 }
