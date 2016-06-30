@@ -1,10 +1,13 @@
 package com.bruno.calculator;
 
 import com.bruno.model.Item;
+import com.bruno.model.Receipt;
 import com.bruno.model.ReceiptItem;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class SimpleCalculator implements Calculator {
     @Override
@@ -21,6 +24,12 @@ public class SimpleCalculator implements Calculator {
         Optional<BigDecimal> importedTaxes = item.isImported() ? Optional.<BigDecimal>of(calculateTaxes(item, importedItemRate)) : Optional.<BigDecimal>empty();
         BigDecimal taxes =  basicTaxes.add(importedTaxes.orElse(new BigDecimal(0)));
         return new ReceiptItem(item,basicTaxes, importedTaxes,taxes);
+    }
+
+    @Override
+    public Receipt getReceipt(List<Item> receiptItems) {
+        return new Receipt(receiptItems.stream().map(it -> getItemForReceipt(it)).
+                collect(Collectors.toList()));
     }
 
     private BigDecimal calculateTaxes(Item item, BigDecimal rate) {
