@@ -8,4 +8,6 @@ public interface Calculator {
 
 
     BigDecimal calculateSaleTaxesFor(Item item);
+
+    BigDecimal calculateSaleTaxesForImportedItem(Item item);
 }

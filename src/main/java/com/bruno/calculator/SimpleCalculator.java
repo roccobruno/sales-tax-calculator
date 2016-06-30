@@ -8,6 +8,15 @@ import java.math.BigDecimal;
 public class SimpleCalculator implements Calculator {
     @Override
     public BigDecimal calculateSaleTaxesFor(Item item) {
-        return item.getPrice().multiply(new BigDecimal(0.1)).setScale(2,BigDecimal.ROUND_HALF_UP);
+        return calculateTaxes(item, new BigDecimal(0.1));
+    }
+
+    private BigDecimal calculateTaxes(Item item, BigDecimal rate) {
+        return item.getPrice().multiply(rate).setScale(2,BigDecimal.ROUND_HALF_UP);
+    }
+
+    @Override
+    public BigDecimal calculateSaleTaxesForImportedItem(Item item) {
+        return calculateTaxes(item, new BigDecimal(0.1)).add(calculateTaxes(item, new BigDecimal(0.05)));
     }
 }

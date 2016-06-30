@@ -1,9 +1,7 @@
 package com.bruno.calculator;
 
 import com.bruno.model.Item;
-import com.bruno.util.BigDecimalUtil;
 import com.sun.javafx.binding.StringFormatter;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,7 +21,7 @@ public class CalculatorTest {
           calculator = new SimpleCalculator();
     }
 
-    private void assertCalculationResult(String itemPrice, String expectedTaxes) {
+    private void assertCalculationBasicRateResult(String itemPrice, String expectedTaxes) {
         Item item = new Item(price(itemPrice));
         BigDecimal taxes = calculator.calculateSaleTaxesFor(item);
         BigDecimal expected = price(expectedTaxes);
@@ -33,22 +31,58 @@ public class CalculatorTest {
 
     @Test
     public void testCalculateSaleTaxesForItem()  {
-        assertCalculationResult("10.00","1.00");
+        assertCalculationBasicRateResult("10.00", "1.00");
     }
 
     @Test
     public void testCalculateSaleTaxesForItemWithPens()  {
-        assertCalculationResult("14.99", "1.5");
+        assertCalculationBasicRateResult("14.99", "1.5");
     }
 
     @Test
     public void testCalculateSaleTaxesForItemOfOnePrice()  {
-        assertCalculationResult("1.00", "0.1");
+        assertCalculationBasicRateResult("1.00", "0.1");
     }
 
     @Test
     public void testCalculateSaleTaxesForItemWithPriceLessThanOne()  {
-        assertCalculationResult("0.1", "0.01");
+        assertCalculationBasicRateResult("0.1", "0.01");
+    }
+
+    @Test
+    public void testCalculateTaxesForImportedItem() {
+        Item item = new Item(price("150.00"));
+        BigDecimal taxes = calculator.calculateSaleTaxesForImportedItem(item);
+        BigDecimal expected = price("22.5");
+        String message = StringFormatter.format("sale taxes for an item with price  %s should be %s","150.00","22.5").getValue();
+        assertEquals(message, expected, taxes);
+    }
+
+    @Test
+    public void testCalculateTaxesForImportedItemWithPens() {
+        Item item = new Item(price("150.80"));
+        BigDecimal taxes = calculator.calculateSaleTaxesForImportedItem(item);
+        BigDecimal expected = price("22.62");
+        String message = StringFormatter.format("sale taxes for an item with price  %s should be %s","150.00","22.62").getValue();
+        assertEquals(message, expected,taxes);
+    }
+
+    @Test
+    public void testCalculateTaxesForImportedItemWithPriceOfOne() {
+        Item item = new Item(price("1.00"));
+        BigDecimal taxes = calculator.calculateSaleTaxesForImportedItem(item);
+        BigDecimal expected = price("0.15");
+        String message = StringFormatter.format("sale taxes for an item with price  %s should be %s","150.00","0.15").getValue();
+        assertEquals(message, expected,taxes);
+    }
+
+    @Test
+    public void testCalculateTaxesForImportedItemWithPriceLessThanOne() {
+        Item item = new Item(price("0.8"));
+        BigDecimal taxes = calculator.calculateSaleTaxesForImportedItem(item);
+        BigDecimal expected = price("0.12");
+        String message = StringFormatter.format("sale taxes for an item with price  %s should be %s","150.00","0.12").getValue();
+        assertEquals(message, expected,taxes);
     }
 
 
