@@ -14,6 +14,8 @@ import static org.junit.Assert.*;
 
 public class CalculatorTest {
 
+
+
     private Calculator calculator;
 
     @Before
@@ -21,38 +23,34 @@ public class CalculatorTest {
           calculator = new SimpleCalculator();
     }
 
+    private void assertCalculationResult(String itemPrice, String expectedTaxes) {
+        Item item = new Item(price(itemPrice));
+        BigDecimal taxes = calculator.calculateSaleTaxesFor(item);
+        BigDecimal expected = price(expectedTaxes);
+        String message = StringFormatter.format("sale taxes for an item with price  %s should be %s",itemPrice,expectedTaxes).getValue();
+        assertEquals(message, expected,taxes);
+    }
+
     @Test
     public void testCalculateSaleTaxesForItem()  {
-
-        Item item = new Item(price("10.00"));
-        BigDecimal taxes = calculator.calculateSaleTaxesFor(item);
-        BigDecimal expected = price("1.00");
-        assertEquals("sale taxes for an item with price 10.00 should be 1.00", expected,taxes);
-
-
+        assertCalculationResult("10.00","1.00");
     }
 
     @Test
     public void testCalculateSaleTaxesForItemWithPens()  {
-
-        Item item = new Item(price("14.99"));
-        BigDecimal taxes = calculator.calculateSaleTaxesFor(item);
-        BigDecimal expected = price("1.5");
-        assertEquals("sale taxes for an item with price 14.99 should be 1.5", expected,taxes);
-
-
+        assertCalculationResult("14.99", "1.5");
     }
 
     @Test
     public void testCalculateSaleTaxesForItemOfOnePrice()  {
-
-        Item item = new Item(price("1.00"));
-        BigDecimal taxes = calculator.calculateSaleTaxesFor(item);
-        BigDecimal expected = price("0.1");
-        assertEquals("sale taxes for an item with price 1.00 should be 0.1", expected,taxes);
-
-
+        assertCalculationResult("1.00", "0.1");
     }
+
+    @Test
+    public void testCalculateSaleTaxesForItemWithPriceLessThanOne()  {
+        assertCalculationResult("0.1", "0.01");
+    }
+
 
 
 }
