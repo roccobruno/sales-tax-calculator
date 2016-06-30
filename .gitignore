@@ -1,0 +1,17 @@
+.orig
+/classes/
+/test-classes/
+searchable-index/
+target/
+.classpath
+.settings
+.project
+*~
+.idea
+build/
+*.iml
+.gradle/
+.DS_Store
+*.lock
+/bin/
+.gradle
