@@ -8,13 +8,10 @@ import org.junit.Test;
 import java.math.BigDecimal;
 import java.util.function.Function;
 
-import static com.bruno.model.Item.itemInstance;
 import static com.bruno.util.BigDecimalUtil.price;
 import static org.junit.Assert.assertEquals;
 
 public class CalculatorTest {
-
-
 
     private Calculator calculator;
 
@@ -24,21 +21,19 @@ public class CalculatorTest {
     }
 
     private void assertCalculationBasicRateResult(String itemPrice, String expectedTaxes) {
-        assertCalculationResult(itemPrice, expectedTaxes, calculator::calculateSaleTaxesFor);
+        assertCalculationResult(itemPrice, expectedTaxes, calculator::calculateSaleTaxesFor, Item::itemInstance);
     }
 
-    private void assertCalculationResult(String itemPrice, String expectedTaxes, Function<Item,BigDecimal> functionCalculator ) {
-        Item item = itemInstance(price(itemPrice));
+    private void assertCalculationResult(String itemPrice, String expectedTaxes, Function<Item,BigDecimal> functionCalculator , Function<BigDecimal,Item> createItem ) {
+        Item item = createItem.apply(price(itemPrice));
         BigDecimal taxes = functionCalculator.apply(item);
         BigDecimal expected = price(expectedTaxes);
         String message = StringFormatter.format("sale taxes for an item with price  %s should be %s",itemPrice,expectedTaxes).getValue();
         assertEquals(message, expected, taxes);
     }
 
-
-
     private void assertCalculationImportedItemResult(String itemPrice, String expectedTaxes) {
-        assertCalculationResult(itemPrice,expectedTaxes, calculator::calculateSaleTaxesForImportedItem);
+        assertCalculationResult(itemPrice,expectedTaxes, calculator::calculateSaleTaxesFor,Item::importedItemInstance);
     }
 
     @Test

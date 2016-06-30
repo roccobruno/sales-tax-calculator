@@ -38,5 +38,5 @@ public class Item {
     }
 
     private BigDecimal price;
-    private Boolean isImported;
+    private Boolean isImported = false;
 }
