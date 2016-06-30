@@ -1,6 +1,7 @@
 package com.bruno.calculator;
 
 import com.bruno.model.Item;
+import com.bruno.model.ReceiptItem;
 import com.sun.javafx.binding.StringFormatter;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +11,7 @@ import java.util.function.Function;
 
 import static com.bruno.util.BigDecimalUtil.price;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class CalculatorTest {
 
@@ -33,7 +35,7 @@ public class CalculatorTest {
     }
 
     private void assertCalculationImportedItemResult(String itemPrice, String expectedTaxes) {
-        assertCalculationResult(itemPrice,expectedTaxes, calculator::calculateSaleTaxesFor,Item::importedItemInstance);
+        assertCalculationResult(itemPrice, expectedTaxes, calculator::calculateSaleTaxesFor, Item::importedItemInstance);
     }
 
     @Test
@@ -74,6 +76,24 @@ public class CalculatorTest {
     @Test
     public void testCalculateTaxesForImportedItemWithPriceLessThanOne() {
         assertCalculationImportedItemResult("0.8","0.12");
+    }
+
+    @Test
+    public void testGenerateReceiptItem() {
+        Item item = Item.itemInstance(price("150.00"));
+        ReceiptItem recItem = calculator.getItemForReceipt(item);
+        assertEquals(price("15.0"),recItem.getTaxes());
+        assertEquals(price("15.0"),recItem.getBasicTaxes());
+        assertFalse(recItem.getImportedTaxes().isPresent());
+    }
+
+    @Test
+    public void testGenerateReceiptItemForImportedItem() {
+        Item item = Item.importedItemInstance(price("150.00"));
+        ReceiptItem recItem = calculator.getItemForReceipt(item);
+        assertEquals(price("22.5"),recItem.getTaxes());
+        assertEquals(price("15.0"),recItem.getBasicTaxes());
+        assertEquals(price("7.5"), recItem.getImportedTaxes().get());
     }
 
 
