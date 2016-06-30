@@ -15,14 +15,19 @@ public class Item {
     }
 
     public static Item importedItemInstance(BigDecimal price) {
-        return new Item(price, true);
+        return new Item(price, true, "generic item");
     }
 
-    private Item(BigDecimal price, Boolean isImported) {
+    public static Item importedItemInstance(BigDecimal price, String description) {
+        return new Item(price, true, "generic item");
+    }
+
+    private Item(BigDecimal price, Boolean isImported, String description) {
         if(price.compareTo(BigDecimal.ZERO) < 0)
             throw new IllegalArgumentException("price cannot be negative");
         this.price = price;
         this.isImported = isImported;
+        this.description = description;
     }
 
 
@@ -48,7 +53,7 @@ public class Item {
     @Override
     public String toString() {
         String importedMessage = this.isImported ? "imported" : "";
-        return  StringFormatter.format("1 %s %s %s", importedMessage, this.description, this.price.toString() ).getValue();
+        return  StringFormatter.format("1 %s %s :%s", importedMessage, this.description, this.price.toString() ).getValue();
     }
 
     private BigDecimal price;

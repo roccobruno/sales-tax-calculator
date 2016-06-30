@@ -15,11 +15,11 @@ public class Receipt {
     }
 
     public BigDecimal getTotalTaxes() {
-        return reduceValues(((it) -> it.getTaxes()));
+        return reduceValues((ReceiptItem::getTaxes));
     }
 
     private BigDecimal reduceValues(Function<ReceiptItem,BigDecimal> func) {
-        return this.getItemList().stream().map(it -> func.apply(it)).reduce(new BigDecimal(0), (a, b) -> a.add(b));
+        return this.getItemList().stream().map(func::apply).reduce(new BigDecimal(0), BigDecimal::add);
     }
 
     public Receipt(List<ReceiptItem> itemList) {
@@ -28,5 +28,14 @@ public class Receipt {
 
     public List<ReceiptItem> getItemList() {
         return itemList;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        this.getItemList().stream().map(ReceiptItem::getItem).forEach(item -> builder.append(item.toString()).append("\n"));
+        builder.append("Sales Taxes:").append(this.getTotalTaxes()).append("\n");
+        builder.append("Total :").append(this.getTotal()).append("\n");
+        return  builder.toString();
     }
 }
