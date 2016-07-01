@@ -60,5 +60,24 @@ public class Item {
     private String description;
     private Boolean isImported = false;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        Item item = (Item) o;
+
+        if (price != null ? !price.equals(item.price) : item.price != null) return false;
+        if (description != null ? !description.equals(item.description) : item.description != null) return false;
+        return !(isImported != null ? !isImported.equals(item.isImported) : item.isImported != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = price != null ? price.hashCode() : 0;
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (isImported != null ? isImported.hashCode() : 0);
+        return result;
+    }
 }

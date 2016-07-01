@@ -1,11 +1,11 @@
 package com.bruno.calculator;
 
+import com.bruno.model.Basket;
 import com.bruno.model.Item;
 import com.bruno.model.Receipt;
 import com.bruno.model.ReceiptItem;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -27,8 +27,8 @@ public class SimpleCalculator implements Calculator {
     }
 
     @Override
-    public Receipt getReceipt(List<Item> receiptItems) {
-        return new Receipt(receiptItems.stream().map(it -> getItemForReceipt(it)).
+    public Receipt getReceipt(Basket receiptItems) {
+        return new Receipt(receiptItems.getItems().stream().map(it -> getItemForReceipt(it)).
                 collect(Collectors.toList()));
     }
 

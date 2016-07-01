@@ -1,5 +1,6 @@
 package com.bruno.calculator;
 
+import com.bruno.model.Basket;
 import com.bruno.model.Item;
 import com.bruno.model.Receipt;
 import com.bruno.model.ReceiptItem;
@@ -8,8 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Function;
 
 import static com.bruno.model.Item.importedItemInstance;
@@ -106,11 +105,11 @@ public class CalculatorTest {
         Item item = importedItemInstance(price("150.00"));
         Item item2 = itemInstance(price("15.00"));
         Item item3 = itemInstance(price("100.00"));
-        List<Item> items = new ArrayList<>();
-        items.add(item);
-        items.add(item2);
-        items.add(item3);
-        Receipt receipt = calculator.getReceipt(items);
+        Basket basket = new Basket();
+        basket.addItem(item);
+        basket.addItem(item2);
+        basket.addItem(item3);
+        Receipt receipt = calculator.getReceipt(basket);
 
         assertEquals("calculate the total for a receipt",price("299"),receipt.getTotal() );
         assertEquals("calculate the total for a receipt",price("34"),receipt.getTotalTaxes() );

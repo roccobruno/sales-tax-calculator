@@ -29,7 +29,7 @@ public class ReceiptTest {
         items.add(item3);
 
 
-        Receipt receipt = calculator.getReceipt(items);
+        Receipt receipt = calculator.getReceipt(new Basket(items));
 
 
         StringBuilder builder = new StringBuilder();
