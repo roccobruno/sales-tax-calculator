@@ -13,6 +13,16 @@ import java.util.List;
 
 public class FileInputService implements InputService {
 
+    private final String fileName;
+
+    public FileInputService() {
+        this.fileName = basketFileName;
+    }
+
+    public FileInputService(String path) {
+        this.fileName = path;
+    }
+
     private final String basketFileName = "basket.csv";
 
     private List<Item> generateBasketItems(String fileName) {
@@ -49,11 +59,7 @@ public class FileInputService implements InputService {
 
     @Override
     public List<Item> loadItems() {
-        return generateBasketItems(basketFileName);
+        return generateBasketItems(this.fileName);
     }
 
-    @Override
-    public List<Item> loadItems(String fileName) {
-        return generateBasketItems(fileName);
-    }
 }

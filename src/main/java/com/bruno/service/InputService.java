@@ -8,5 +8,4 @@ public interface InputService {
 
     List<Item> loadItems();
 
-    List<Item> loadItems(String fileName);
 }

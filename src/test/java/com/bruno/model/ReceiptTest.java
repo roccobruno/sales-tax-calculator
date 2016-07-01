@@ -2,6 +2,9 @@ package com.bruno.model;
 
 import com.bruno.calculator.Calculator;
 import com.bruno.calculator.SimpleCalculator;
+import com.bruno.service.BasketService;
+import com.bruno.service.BasketServiceImpl;
+import com.bruno.service.FileInputService;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -19,6 +22,7 @@ public class ReceiptTest {
     @Test
     public void testToString() throws Exception {
         Calculator calculator = new SimpleCalculator();
+        BasketService basketService = new BasketServiceImpl(calculator,new FileInputService());
 
         Item item = importedItemInstance(price("150.00"));
         Item item2 = itemInstance(price("15.00"));
@@ -29,7 +33,7 @@ public class ReceiptTest {
         items.add(item3);
 
 
-        Receipt receipt = calculator.getReceipt(new Basket(items));
+        Receipt receipt = basketService.getReceipt(new Basket(items));
 
 
         StringBuilder builder = new StringBuilder();

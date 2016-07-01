@@ -32,7 +32,8 @@ public class FileInputServiceTest {
     @Test
     public void testLoadItemsFromSpecificFileName() throws Exception {
 
-        List<Item> items = service.loadItems("basket2.csv");
+        service = new FileInputService("basket2.csv");
+        List<Item> items = service.loadItems();
         assertTrue("basket should not be empty", !items.isEmpty());
         assertTrue("basket should not contain bad format item", items.size() == 2);
         assertTrue("basket should contain expected item1", items.contains(itemInstance(price("10.00"), "item1")));
@@ -43,6 +44,7 @@ public class FileInputServiceTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testLoadBasketException() {
-        service.loadItems("not_existing_file.csv");
+        service = new FileInputService("not_existing_file.csv");
+        service.loadItems();
     }
 }
