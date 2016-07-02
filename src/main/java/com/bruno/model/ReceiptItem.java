@@ -1,5 +1,7 @@
 package com.bruno.model;
 
+import com.sun.javafx.binding.StringFormatter;
+
 import java.math.BigDecimal;
 import java.util.Optional;
 
@@ -31,5 +33,11 @@ public class ReceiptItem {
 
     public BigDecimal getTaxes() {
         return taxes;
+    }
+
+    @Override
+    public String toString() {
+        String importedMessage = this.getItem().isImported() ? "imported" : "";
+        return  StringFormatter.format("1 %s %s :%s", importedMessage, this.getItem().getDescription(), getItem().getPrice().add(taxes).toString()).getValue();
     }
 }

@@ -20,7 +20,7 @@ public class BasketServiceImpl implements BasketService {
 
     @Override
     public ReceiptItem getItemForReceipt(Item item) {
-        BigDecimal basicTaxes = Calculator.calculateTaxesForItem(item);
+        BigDecimal basicTaxes = Calculator.calculateBasicRateTaxesForItem(item);
         Optional<BigDecimal> importedTaxes = item.isImported() ? Optional.of(Calculator.calculateTaxesForImportedItem(item)) : Optional.<BigDecimal>empty();
         BigDecimal taxes =  basicTaxes.add(importedTaxes.orElse(new BigDecimal(0)));
         return new ReceiptItem(item,basicTaxes, importedTaxes,taxes);
@@ -30,6 +30,11 @@ public class BasketServiceImpl implements BasketService {
     public Receipt getReceipt(Basket receiptItems) {
         return new Receipt(receiptItems.getItems().stream().map(it -> getItemForReceipt(it)).
                 collect(Collectors.toList()));
+    }
+
+    @Override
+    public Receipt generateReceipt() {
+        return getReceipt(loadBasket());
     }
 
 

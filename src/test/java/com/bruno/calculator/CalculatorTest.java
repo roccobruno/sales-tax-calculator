@@ -51,7 +51,7 @@ public class CalculatorTest {
         categories.add(MEDICAL);
 
         categories.stream().forEach(category ->
-                assertCalculationBasicRateResult("10.00", "0", category));
+                assertCalculationBasicRateResult("12.99", "0", category));
 
     }
 
@@ -67,7 +67,7 @@ public class CalculatorTest {
 
     @Test
     public void testCalculateSaleTaxesForItemWithPriceLessThanOne()  {
-        assertCalculationBasicRateResult("0.1", "0.01",OTHER);
+        assertCalculationBasicRateResult("0.1", "0.05",OTHER);
     }
 
     @Test
@@ -89,7 +89,7 @@ public class CalculatorTest {
 
     @Test
     public void testCalculateTotalTaxesForImportedItemWithPens() {
-        assertCalculationImportedItemResult("150.80", "22.62",OTHER);
+        assertCalculationImportedItemResult("150.80", "22.65",OTHER);
     }
 
     @Test
@@ -99,7 +99,11 @@ public class CalculatorTest {
 
     @Test
     public void testCalculateTotalTaxesForImportedItemWithPriceLessThanOne() {
-        assertCalculationImportedItemResult("0.8", "0.12",OTHER);
+        assertCalculationImportedItemResult("0.8", "0.15",OTHER);
+    }
+    @Test
+    public void testCalculateTotalTaxesForImportedItemWithPriceLessThanOne2() {
+        assertCalculationImportedItemResult("47.50", "7.15",OTHER);
     }
 
     @Test

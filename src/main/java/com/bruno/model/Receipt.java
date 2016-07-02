@@ -33,7 +33,7 @@ public class Receipt {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        this.getItemList().stream().map(ReceiptItem::getItem).forEach(item -> builder.append(item.toString()).append("\n"));
+        this.getItemList().stream().forEach(item -> builder.append(item.toString()).append("\n"));
         builder.append("Sales Taxes:").append(this.getTotalTaxes()).append("\n");
         builder.append("Total :").append(this.getTotal()).append("\n");
         return  builder.toString();

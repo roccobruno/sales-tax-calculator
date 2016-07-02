@@ -85,7 +85,8 @@ public class Item {
 
         if (price != null ? !price.equals(item.price) : item.price != null) return false;
         if (description != null ? !description.equals(item.description) : item.description != null) return false;
-        return !(isImported != null ? !isImported.equals(item.isImported) : item.isImported != null);
+        if (isImported != null ? !isImported.equals(item.isImported) : item.isImported != null) return false;
+        return category == item.category;
 
     }
 
@@ -94,6 +95,7 @@ public class Item {
         int result = price != null ? price.hashCode() : 0;
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (isImported != null ? isImported.hashCode() : 0);
+        result = 31 * result + (category != null ? category.hashCode() : 0);
         return result;
     }
 

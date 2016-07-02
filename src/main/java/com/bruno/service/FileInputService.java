@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,8 @@ public class FileInputService implements InputService {
     private final String fileName;
 
     public FileInputService() {
-        this.fileName = basketFileName;
+        URL resource = getClass().getClassLoader().getResource(basketFileName);
+        this.fileName = resource.getFile();
     }
 
     public FileInputService(String path) {
@@ -29,15 +31,11 @@ public class FileInputService implements InputService {
     private List<Item> generateBasketItems(String fileName) {
         List<Item> result = new ArrayList<>();
         try {
-            URL resource = getClass().getClassLoader().getResource(fileName);
-            if(resource == null)
-                throw new IllegalArgumentException(String.format("no file %s found",fileName));
-
-            String file = resource.getFile();
-            Files.readAllLines(Paths.get(file)).stream().filter(s -> !s.isEmpty()).forEach(s -> parseLine(s, result));
+            Path path = Paths.get(fileName);
+            Files.readAllLines(path).stream().filter(s -> !s.isEmpty()).forEach(s -> parseLine(s, result));
         } catch (IOException e) {
             // to log warning message - no file found
-            System.out.println(e.getMessage());
+            System.out.println("File not found - "+e.getMessage()+ " - Returning empty list of item");
         }
         return result;
     }
@@ -64,7 +62,8 @@ public class FileInputService implements InputService {
 
     @Override
     public List<Item> loadItems() {
-        return generateBasketItems(this.fileName);
+//
+        return generateBasketItems(fileName);
     }
 
 }

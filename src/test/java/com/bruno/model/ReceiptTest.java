@@ -1,6 +1,5 @@
 package com.bruno.model;
 
-import com.bruno.calculator.Calculator;
 import com.bruno.service.BasketService;
 import com.bruno.service.BasketServiceImpl;
 import com.bruno.service.FileInputService;
@@ -20,7 +19,6 @@ public class ReceiptTest {
 
     @Test
     public void testToString() throws Exception {
-        Calculator calculator = new Calculator();
         BasketService basketService = new BasketServiceImpl(new FileInputService());
 
         Item item = importedItemInstance(price("150.00"));
@@ -36,7 +34,7 @@ public class ReceiptTest {
 
 
         StringBuilder builder = new StringBuilder();
-        receipt.getItemList().stream().map(ReceiptItem::getItem).forEach(itt -> builder.append(itt.toString()).append("\n"));
+        receipt.getItemList().stream().forEach(itt -> builder.append(itt.toString()).append("\n"));
         builder.append("Sales Taxes:").append(receipt.getTotalTaxes()).append("\n");
         builder.append("Total :").append(receipt.getTotal()).append("\n");
 

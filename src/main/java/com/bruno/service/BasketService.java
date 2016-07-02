@@ -10,5 +10,6 @@ public interface BasketService {
     Basket loadBasket();
     ReceiptItem getItemForReceipt(Item item);
     Receipt getReceipt(Basket receiptItems);
+    Receipt generateReceipt();
 
 }
