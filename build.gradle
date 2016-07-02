@@ -1,6 +1,8 @@
 apply plugin: 'java'
+apply plugin: 'application'
 
-sourceCompatibility = 1.5
+mainClassName = 'com.bruno.ReceiptCalculatorMain'
+sourceCompatibility = 1.8
 version = '1.0'
 
 repositories {
@@ -10,3 +12,12 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Quickstart',
+                'Implementation-Version': version,
+                'Main-Class': 'com.bruno.ReceiptCalculatorMain'
+    }
+}
+
