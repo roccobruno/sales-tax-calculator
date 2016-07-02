@@ -11,19 +11,17 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class BasketServiceImpl implements BasketService {
-    private final Calculator calculator;
     private final InputService inputService;
 
-    public BasketServiceImpl(Calculator simpleCalculator, InputService inputService) {
-        calculator = simpleCalculator;
+    public BasketServiceImpl( InputService inputService) {
         this.inputService = inputService;
     }
 
 
     @Override
     public ReceiptItem getItemForReceipt(Item item) {
-        BigDecimal basicTaxes = calculator.calculateTaxesForItem(item);
-        Optional<BigDecimal> importedTaxes = item.isImported() ? Optional.of(calculator.calculateTaxesForImportedItem(item)) : Optional.<BigDecimal>empty();
+        BigDecimal basicTaxes = Calculator.calculateTaxesForItem(item);
+        Optional<BigDecimal> importedTaxes = item.isImported() ? Optional.of(Calculator.calculateTaxesForImportedItem(item)) : Optional.<BigDecimal>empty();
         BigDecimal taxes =  basicTaxes.add(importedTaxes.orElse(new BigDecimal(0)));
         return new ReceiptItem(item,basicTaxes, importedTaxes,taxes);
     }

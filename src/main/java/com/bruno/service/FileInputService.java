@@ -1,6 +1,7 @@
 package com.bruno.service;
 
 import com.bruno.model.Item;
+import com.bruno.model.ItemCategory;
 import com.bruno.util.BigDecimalUtil;
 
 import java.io.IOException;
@@ -28,7 +29,7 @@ public class FileInputService implements InputService {
     private List<Item> generateBasketItems(String fileName) {
         List<Item> result = new ArrayList<>();
         try {
-            URL resource = this.getClass().getClassLoader().getResource(fileName);
+            URL resource = getClass().getClassLoader().getResource(fileName);
             if(resource == null)
                 throw new IllegalArgumentException(String.format("no file %s found",fileName));
 
@@ -44,16 +45,20 @@ public class FileInputService implements InputService {
     private void parseLine(String s, List<Item> result) {
         String[] values = s.split(",");
         try {
-            if(values.length == 3) {
+            if(values.length == 4) {
                 BigDecimal price = BigDecimalUtil.price(values[1]);
                 Boolean isImported = Boolean.parseBoolean(values[2]);
+                ItemCategory category = ItemCategory.valueOf(values[3]);
+                String itemDescription = values[0];
                 if (isImported)
-                    result.add(Item.importedItemInstance(price, values[0]));
+                    result.add(Item.importedItemInstance(price, category, itemDescription));
                 else
-                    result.add(Item.itemInstance(price, values[0]));
+                    result.add(Item.itemInstance(price, category, itemDescription));
             }
         } catch (NumberFormatException e) {
             //invalid price specified - ignoring line
+        } catch (IllegalArgumentException e) {
+            //invalid category specified - ignoring line
         }
     }
 

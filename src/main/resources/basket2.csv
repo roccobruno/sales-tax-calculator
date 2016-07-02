@@ -1,5 +1,6 @@
-item1,10.00,false
-item2,dsdsds.00,true
+item1,10.00,false,OTHER
+item2,dsdsds.00,true,OTHER
 
-item3,30.00,false
+item3,30.00,false,OTHER
+item4,30.00,false,dsdsdss
 dsdsd dssds     d

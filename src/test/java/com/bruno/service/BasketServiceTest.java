@@ -1,10 +1,6 @@
 package com.bruno.service;
 
-import com.bruno.calculator.SimpleCalculator;
-import com.bruno.model.Basket;
-import com.bruno.model.Item;
-import com.bruno.model.Receipt;
-import com.bruno.model.ReceiptItem;
+import com.bruno.model.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,7 +15,7 @@ public class BasketServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        basketService = new BasketServiceImpl(new SimpleCalculator(), new FileInputService());
+        basketService = new BasketServiceImpl( new FileInputService());
     }
 
     @Test
@@ -27,9 +23,9 @@ public class BasketServiceTest {
 
         Basket basket = basketService.loadBasket();
         assertTrue("basket should not be empty", !basket.getItems().isEmpty());
-        assertTrue("basket should contain expected item1", basket.getItems().contains(itemInstance(price("10.00"), "item1")));
-        assertTrue("basket should contain expected item2", basket.getItems().contains(importedItemInstance(price("20.00"), "item2")));
-        assertTrue("basket should contain expected item3", basket.getItems().contains(itemInstance(price("30.00"), "item3")));
+        assertTrue("basket should contain expected item1", basket.getItems().contains(itemInstance(price("10.00"), ItemCategory.OTHER, "item1")));
+        assertTrue("basket should contain expected item2", basket.getItems().contains(importedItemInstance(price("20.00"),ItemCategory.OTHER, "item2")));
+        assertTrue("basket should contain expected item3", basket.getItems().contains(itemInstance(price("30.00"),ItemCategory.OTHER, "item3")));
 
     }
 
