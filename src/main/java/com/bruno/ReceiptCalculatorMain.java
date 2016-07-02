@@ -1,6 +1,5 @@
 package com.bruno;
 
-import com.bruno.calculator.SimpleCalculator;
 import com.bruno.model.Basket;
 import com.bruno.service.BasketService;
 import com.bruno.service.BasketServiceImpl;
@@ -20,13 +19,13 @@ public class ReceiptCalculatorMain {
 
         InputService inputService;
 
-        if(fileOption.isEmpty()) {
+        if(fileOption.equalsIgnoreCase("D")) {
             inputService = new FileInputService();
         } else {
             inputService = new FileInputService(fileOption);
         }
 
-        BasketService basketService = new BasketServiceImpl(new SimpleCalculator(),inputService);
+        BasketService basketService = new BasketServiceImpl(inputService);
         Basket basket = basketService.loadBasket();
         System.out.println(basketService.getReceipt(basket));
 
