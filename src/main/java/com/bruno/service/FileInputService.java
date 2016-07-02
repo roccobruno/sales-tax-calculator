@@ -62,7 +62,6 @@ public class FileInputService implements InputService {
 
     @Override
     public List<Item> loadItems() {
-//
         return generateBasketItems(fileName);
     }
 
