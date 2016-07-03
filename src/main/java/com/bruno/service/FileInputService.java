@@ -3,6 +3,8 @@ package com.bruno.service;
 import com.bruno.model.Item;
 import com.bruno.model.ItemCategory;
 import com.bruno.util.BigDecimalUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileInputService implements InputService {
+    private final Logger logger = LoggerFactory.getLogger(FileInputService.class);
 
     private final String fileName;
 
@@ -35,7 +38,7 @@ public class FileInputService implements InputService {
             Files.readAllLines(path).stream().filter(s -> !s.isEmpty()).forEach(s -> parseLine(s, result));
         } catch (IOException e) {
             // to log warning message - no file found
-            System.out.println("File not found - "+e.getMessage()+ " - Returning empty list of item");
+            logger.error("File not found - " + e.getMessage() + "\n" + " - Returning empty list of item");
         }
         return result;
     }
@@ -44,7 +47,7 @@ public class FileInputService implements InputService {
         String[] values = s.split(",");
         try {
             if(values.length == 4) {
-                BigDecimal price = BigDecimalUtil.price(values[1]);
+                BigDecimal price = BigDecimalUtil.bd(values[1]);
                 Boolean isImported = Boolean.parseBoolean(values[2]);
                 ItemCategory category = ItemCategory.valueOf(values[3]);
                 String itemDescription = values[0];
@@ -53,10 +56,10 @@ public class FileInputService implements InputService {
                 else
                     result.add(Item.itemInstance(price, category, itemDescription));
             }
-        } catch (NumberFormatException e) {
-            //invalid price specified - ignoring line
-        } catch (IllegalArgumentException e) {
-            //invalid category specified - ignoring line
+        }  catch (IllegalArgumentException e) {
+            //invalid content - ignoring line
+            logger.warn("The following line seems to have wrong content : "+s+". Line ignored");
+
         }
     }
 

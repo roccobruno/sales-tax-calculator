@@ -11,23 +11,24 @@ public class Item {
         return new Item(price,category,description);
     }
 
+    public static Item itemInstance(BigDecimal price, ItemCategory category) {
+        return new Item(price,category,"generic item");
+    }
+
+    public static Item itemInstance(BigDecimal price) {
+        return new Item(price,ItemCategory.OTHER,"generic item");
+    }
 
     public static Item importedItemInstance(BigDecimal price, ItemCategory category, String description) {
         return new Item(price, true,category,description);
     }
 
 
-    public static Item itemInstance(BigDecimal price, ItemCategory category) {
-        return new Item(price,category,"generic item");
-    }
 
     public static Item importedItemInstance(BigDecimal price) {
         return new Item(price,true,ItemCategory.OTHER,"generic item");
     }
 
-    public static Item itemInstance(BigDecimal price) {
-        return new Item(price,ItemCategory.OTHER,"generic item");
-    }
 
     public static Item importedItemInstance(BigDecimal price, ItemCategory category) {
         return new Item(price, true,category,"generic item");
@@ -35,7 +36,7 @@ public class Item {
 
     private Item(final BigDecimal price, final Boolean isImported,final ItemCategory category,final String description) {
         if(price.compareTo(BigDecimal.ZERO) < 0)
-            throw new IllegalArgumentException("price cannot be negative");
+            throw new IllegalArgumentException("bd cannot be negative");
         this.price = price;
         this.isImported = isImported;
         this.description = description;
@@ -45,7 +46,7 @@ public class Item {
 
     private Item(final BigDecimal price,final ItemCategory category,final String description) {
         if(price.compareTo(BigDecimal.ZERO) < 0)
-            throw new IllegalArgumentException("price cannot be negative");
+            throw new IllegalArgumentException("bd cannot be negative");
         this.price = price;
         this.description = description;
         this.category = category;
@@ -69,7 +70,7 @@ public class Item {
     @Override
     public String toString() {
         String importedMessage = this.isImported ? "imported" : "";
-        return  StringFormatter.format("1 %s %s :%s", importedMessage, this.description, this.price.toString() ).getValue();
+        return  StringFormatter.format("1 %s %s of type %s :%s", importedMessage, this.description,this.category.toString().toLowerCase(), this.price.toString() ).getValue();
     }
 
     public ItemCategory getCategory() {

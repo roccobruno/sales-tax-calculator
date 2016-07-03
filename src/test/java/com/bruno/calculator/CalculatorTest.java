@@ -12,7 +12,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import static com.bruno.model.ItemCategory.*;
-import static com.bruno.util.BigDecimalUtil.price;
+import static com.bruno.util.BigDecimalUtil.bd;
 import static org.junit.Assert.assertEquals;
 
 public class CalculatorTest {
@@ -23,10 +23,10 @@ public class CalculatorTest {
     }
 
     private void assertCalculationResult(String itemPrice, String expectedTaxes,ItemCategory category, Function<Item,BigDecimal> functionCalculator , BiFunction<BigDecimal,ItemCategory,Item> createItem ) {
-        Item item = createItem.apply(price(itemPrice),category);
+        Item item = createItem.apply(bd(itemPrice),category);
         BigDecimal taxes = functionCalculator.apply(item);
-        BigDecimal expected = price(expectedTaxes);
-        String message = StringFormatter.format("sale taxes for an item with price  %s should be %s",itemPrice,expectedTaxes).getValue();
+        BigDecimal expected = bd(expectedTaxes);
+        String message = StringFormatter.format("sale taxes for an item with bd  %s should be %s",itemPrice,expectedTaxes).getValue();
         assertEquals(message, expected, taxes);
     }
 
