@@ -35,7 +35,7 @@ public class FileInputService implements InputService {
         List<Item> result = new ArrayList<>();
         try {
             Path path = Paths.get(fileName);
-            Files.readAllLines(path).stream().filter(s -> !s.isEmpty()).forEach(s -> parseLine(s, result));
+            Files.readAllLines(path).stream().filter(s -> !s.isEmpty()).filter(s -> !s.startsWith("Description")).forEach(s -> parseLine(s, result));
         } catch (IOException e) {
             // to log warning message - no file found
             logger.error("File not found - " + e.getMessage() + "\n" + " - Returning empty list of item");

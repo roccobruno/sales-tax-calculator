@@ -1,3 +1,4 @@
+Description,price,imported,category
 item1,10.00,false,BOOK
 item2,20.00,true,OTHER
 item3,30.00,false,MEDICAL

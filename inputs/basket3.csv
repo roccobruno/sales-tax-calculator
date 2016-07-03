@@ -1,3 +1,4 @@
+Description,price,imported,category
 bottle of perfume,27.99,true,OTHER
 bottle of perfume,18.99,false,OTHER
 packet of headache pills,9.75,false,MEDICAL

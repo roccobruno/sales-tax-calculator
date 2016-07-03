@@ -5,13 +5,15 @@ import java.util.List;
 
 public class Basket {
 
-    private List<Item> items = new ArrayList<>();
+    private final List<Item> items;
 
     public Basket(List<Item> items) {
         this.items = items;
     }
 
-    public Basket() {}
+    public Basket() {
+        this.items = new ArrayList<>();
+    }
 
     public void addItem(Item item) {
         this.items.add(item);

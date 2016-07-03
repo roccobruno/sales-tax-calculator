@@ -7,10 +7,10 @@ import java.util.Optional;
 
 public class ReceiptItem {
 
-    private Item item;
-    private BigDecimal basicTaxes;
-    private Optional<BigDecimal> importedTaxes;
-    private BigDecimal taxes;
+    private final Item item;
+    private final BigDecimal basicTaxes;
+    private final Optional<BigDecimal> importedTaxes;
+    private final BigDecimal taxes;
 
     public ReceiptItem(Item item, BigDecimal basicTaxes, Optional<BigDecimal> importedTaxes, BigDecimal taxes) {
         this.item = item;
